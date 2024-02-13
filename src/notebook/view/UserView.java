@@ -42,6 +42,10 @@ public class  UserView {
                 case UPDATE:
                     String userId = prompt("Enter user id: ");
                     userController.updateUser(userId, createUser());
+                    break;
+                case DELETE:
+                    String userDeleteId = prompt("Enter user id for delete: ");
+                    userController.deleteUser(userDeleteId);
             }
         }
     }
