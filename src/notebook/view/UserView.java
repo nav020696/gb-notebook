@@ -3,10 +3,11 @@ package notebook.view;
 import notebook.controller.UserController;
 import notebook.model.User;
 import notebook.util.Commands;
+import notebook.util.UserValidator;
 
 import java.util.Scanner;
 
-public class UserView {
+public class  UserView {
     private final UserController userController;
 
     public UserView(UserController userController) {
@@ -35,6 +36,9 @@ public class UserView {
                         throw new RuntimeException(e);
                     }
                     break;
+                case LIST:
+                    System.out.println(userController.readAll());
+                    break;
                 case UPDATE:
                     String userId = prompt("Enter user id: ");
                     userController.updateUser(userId, createUser());
@@ -49,9 +53,13 @@ public class UserView {
     }
 
     private User createUser() {
+        UserValidator userValidator = new UserValidator();
         String firstName = prompt("Имя: ");
+        firstName = userValidator.isValid(firstName);
         String lastName = prompt("Фамилия: ");
+        lastName = userValidator.isValid(lastName);
         String phone = prompt("Номер телефона: ");
+        phone = userValidator.isValid(phone);
         return new User(firstName, lastName, phone);
     }
 }
