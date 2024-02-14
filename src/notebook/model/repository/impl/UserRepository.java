@@ -33,8 +33,9 @@ public class UserRepository implements GBRepository {
     }
 
     @Override
-    public User create(User user) {
+    public User create(List<String> userDates) {
         List<User> users = findAll();
+        User user = createUser(userDates);
         long max = 0L;
         for (User u : users) {
             long id = u.getId();
@@ -55,8 +56,10 @@ public class UserRepository implements GBRepository {
     }
 
     @Override
-    public Optional<User> update(Long userId, User update) {
+    public Optional<User> update(Long userId, List<String> usersDates) {
         List<User> users = findAll();
+        User update = createUser(usersDates);
+        update.setId(userId);
         User editUser = users.stream()
                 .filter(u -> u.getId()
                         .equals(userId))
@@ -134,5 +137,7 @@ public class UserRepository implements GBRepository {
             System.out.println(e.getMessage());
         }
     }
-
+    private User createUser(List<String> usersDates) {
+        return new User(usersDates.get(0), usersDates.get(1), usersDates.get(2));
+    }
 }

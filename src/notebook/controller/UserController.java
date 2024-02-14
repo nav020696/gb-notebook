@@ -13,8 +13,8 @@ public class UserController {
         this.repository = repository;
     }
 
-    public void saveUser(User user) {
-        repository.create(user);
+    public void saveUser(List<String> userDates) {
+        repository.create(userDates);
     }
 
     public User readUser(Long userId) throws Exception {
@@ -32,9 +32,8 @@ public class UserController {
         return repository.findAll();
     }
 
-    public void updateUser(String userId, User update) {
-        update.setId(Long.parseLong(userId));
-        repository.update(Long.parseLong(userId), update);
+    public void updateUser(String userId, List<String> usersDates) {
+        repository.update(Long.parseLong(userId), usersDates);
     }
 
     public void deleteUser(String userId){

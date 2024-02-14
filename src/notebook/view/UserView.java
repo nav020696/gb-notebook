@@ -5,6 +5,8 @@ import notebook.model.User;
 import notebook.util.Commands;
 import notebook.util.UserValidator;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class  UserView {
@@ -23,8 +25,8 @@ public class  UserView {
             if (com == Commands.EXIT) return;
             switch (com) {
                 case CREATE:
-                    User u = createUser();
-                    userController.saveUser(u);
+//                    User u = createUser();
+                    userController.saveUser(prompt());
                     break;
                 case READ:
                     String id = prompt("Идентификатор пользователя: ");
@@ -41,7 +43,7 @@ public class  UserView {
                     break;
                 case UPDATE:
                     String userId = prompt("Enter user id: ");
-                    userController.updateUser(userId, createUser());
+                    userController.updateUser(userId, prompt());
                     break;
                 case DELETE:
                     String userDeleteId = prompt("Enter user id for delete: ");
@@ -50,20 +52,23 @@ public class  UserView {
         }
     }
 
+    private List<String> prompt() {
+        List<String> userData = new ArrayList<>();
+        UserValidator validator = new UserValidator();
+        Scanner in = new Scanner(System.in);
+        System.out.print("Имя: ");
+        userData.add(validator.isValid(in.nextLine()));
+        System.out.print("Фамилия: ");
+        userData.add(validator.isValid(in.nextLine()));
+        System.out.print("Номер телефона: ");
+        userData.add(validator.isValid(in.nextLine()));
+        return userData;
+    }
+
     private String prompt(String message) {
         Scanner in = new Scanner(System.in);
         System.out.print(message);
         return in.nextLine();
     }
 
-    private User createUser() {
-        UserValidator userValidator = new UserValidator();
-        String firstName = prompt("Имя: ");
-        firstName = userValidator.isValid(firstName);
-        String lastName = prompt("Фамилия: ");
-        lastName = userValidator.isValid(lastName);
-        String phone = prompt("Номер телефона: ");
-        phone = userValidator.isValid(phone);
-        return new User(firstName, lastName, phone);
-    }
 }
